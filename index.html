@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aniversário 17 Anos</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 200vh;
+      background: linear-gradient(
+        to bottom,
+        #9d4edd 0%,
+        #7b2cbf 35%,
+        #5a189a 65%,
+        #240046 100%
+      );
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+      color: #fff;
+    }
+
+    /* 17 grande no fundo */
+    .background-number {
+      position: fixed;
+      font-size: 50vw;
+      font-weight: bold;
+      color: rgba(255,255,255,0.08);
+      z-index: 0;
+      user-select: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      max-width: 900px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      margin-top: 60px;
+    }
+
+    h1, h2 {
+      margin-bottom: 15px;
+      color: #f2e9ff;
+    }
+
+    p {
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* ===== Carrossel ===== */
+    .carousel {
+      max-width: 320px;
+      margin: 20px auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .carousel img {
+      width: 100%;
+      display: none;
+    }
+
+    .carousel img.active {
+      display: block;
+    }
+
+    /* ===== Relógio Digital ===== */
+    .clock {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+
+    .time-box {
+      background: rgba(0,0,0,0.5);
+      border-radius: 14px;
+      padding: 15px 18px;
+      min-width: 90px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+
+    .time-box span {
+      font-size: 1.8rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    .time-box small {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+
+    .video-container {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  margin: 20px auto;
+  padding-top: 177.78%; /* 9:16 */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  background: black; /* fundo para evitar espaços brancos */
+}
+
+.video-container video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* <<--- aqui está a mudança */
+  background: black; /* evita espaços vazios transparentes */
+}
+
+    footer {
+      margin-top: 25px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    /* ===== 17 FLUTUANDO ===== */
+    .floating-17 {
+      position: fixed;
+      top: -10%;
+      font-weight: bold;
+      color: rgba(255,255,255,0.25);
+      animation: cair linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes cair {
+      from {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      to {
+        transform: translateY(120vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background-number">17</div>
+
+  <div class="container">
+    <h1>Feliz Aniversário 🎉</h1>
+    <p>Um site feito com carinho pelo grupo 💜</p>
+
+    <h2>Nossos Momentos 📸</h2>
+    <div class="carousel">
+      <img src="imagens/foto1.jpg" class="active">
+      <img src="imagens/foto2.jpg">
+      <img src="imagens/foto3.jpg">
+      <img src="imagens/foto5.jpg">
+      <img src="imagens/foto4.jpg">
+    </div>
+
+    <h2>Tempo de Amizade ⏳</h2>
+    <div class="clock">
+      <div class="time-box"><span id="dias">0</span><small>Dias</small></div>
+      <div class="time-box"><span id="horas">0</span><small>Horas</small></div>
+      <div class="time-box"><span id="minutos">0</span><small>Min</small></div>
+      <div class="time-box"><span id="segundos">0</span><small>Seg</small></div>
+    </div>
+
+    <h2>Um Vídeo Especial 🎬</h2>
+    <div class="video-container">
+      <video src="imagens/video.mp4" controls></video>
+    </div>
+
+    <footer>
+      <p>Com carinho, do grupo 💜</p>
+    </footer>
+  </div>
+
+  <!-- Música -->
+  <audio id="musica" loop>
+    <source src="imagens/musica.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    /* ===== Carrossel ===== */
+    const imgs = document.querySelectorAll(".carousel img");
+    let i = 0;
+    setInterval(() => {
+      imgs[i].classList.remove("active");
+      i = (i + 1) % imgs.length;
+      imgs[i].classList.add("active");
+    }, 3000);
+
+    /* ===== Relógio ===== */
+    const inicio = new Date("2024-02-10T00:00:00");
+    function atualizar() {
+      const agora = new Date();
+      const diff = agora - inicio;
+      document.getElementById("dias").innerText = Math.floor(diff / 86400000);
+      document.getElementById("horas").innerText = Math.floor(diff / 3600000) % 24;
+      document.getElementById("minutos").innerText = Math.floor(diff / 60000) % 60;
+      document.getElementById("segundos").innerText = Math.floor(diff / 1000) % 60;
+    }
+    atualizar();
+    setInterval(atualizar, 1000);
+
+    /* ===== 17 flutuando ===== */
+    function criar17() {
+      const el = document.createElement("div");
+      el.className = "floating-17";
+      el.innerText = "17";
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.fontSize = (20 + Math.random() * 50) + "px";
+      el.style.animationDuration = (6 + Math.random() * 6) + "s";
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 12000);
+    }
+    setInterval(criar17, 400);
+
+    /* ===== Música ao interagir ===== */
+const musica = document.getElementById("musica");
+
+function iniciarMusica() {
+  musica.volume = 0.5;
+  musica.play();
+  document.removeEventListener("click", iniciarMusica);
+  document.removeEventListener("touchstart", iniciarMusica);
+  document.removeEventListener("keydown", iniciarMusica);
+}
+
+document.addEventListener("click", iniciarMusica);
+document.addEventListener("touchstart", iniciarMusica);
+document.addEventListener("keydown", iniciarMusica);
+
+/* ===== Pausar música ao tocar vídeo ===== */
+const video = document.querySelector(".video-container video");
+
+video.addEventListener("play", () => {
+  if (!musica.paused) musica.pause();
+});
+
+video.addEventListener("pause", () => {
+  // Quando o vídeo for pausado, a música só volta com interação do usuário
+});
+  </script>
+</body>
+</html>
